@@ -9,7 +9,6 @@
 /bridge/stremio/
 /bridge/wrapper.hpp
 .DS_Store
-/Cargo.lock
 /.build
 /Packages
 xcuserdata/
