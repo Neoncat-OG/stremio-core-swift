@@ -2,7 +2,7 @@ LIBRARY_NAME := libstremio_core_swift
 FRAMEWORK_NAME := StremioCore
 .PHONY: all
 
-all: macos ios iossim package
+all: macos ios iossim visionossim package
 
 macos:
 	@cargo +nightly build -Z build-std --release --lib --target aarch64-apple-ios-macabi
