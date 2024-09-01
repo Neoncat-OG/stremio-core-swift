@@ -1,0 +1,48 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  Release:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set default rust toolchain
+        run: rustup default nightly
+      - name: Install rustfmt
+        run: rustup component add rustfmt
+      - name: Install clippy
+        run: rustup component add clippy
+      - name: Add x86_64-apple-ios target
+        run: rustup target add x86_64-apple-ios
+      - name: Add aarch64-apple-ios target
+        run: rustup target add aarch64-apple-ios
+      - name: Add aarch64-apple-ios-sim target
+        run: rustup target add aarch64-apple-ios-sim
+      - name: Install rust-src
+        run: rustup component add rust-src --toolchain nightly-aarch64-apple-darwin
+      - name: Install cargo lipo
+        run: cargo install cargo-lipo
+      - name: Install cbindgen
+        run: brew install cbindgen
+      - name: Install protobuf
+        run: brew install protobuf
+      - name: Install swift-protobuf
+        run: brew install swift-protobuf
+      - name: Setup Xcode
+        run: sudo xcode-select -switch /Applications/Xcode_15.4.app
+      - name: Build stremio-core-swift
+        run: make all
+      - name: Archive StremioCore.xcframework
+        run: cd .build && zip -r StremioCore.xcframework.zip ./StremioCore.xcframework
+      - name: Upload build artifact to GitHub release assets
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
+          file: ./.build/StremioCore.xcframework
+          asset_name: StremioCore.xcframework.zip
+          overwrite: true
