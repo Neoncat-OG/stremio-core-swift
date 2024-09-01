@@ -17,6 +17,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build
-      run: brew install cargo && cargo build --release --lib --target aarch64-apple-ios
+      run: brew install rust && cargo build --release --lib --target aarch64-apple-ios
     - name: Run tests
       run: cargo test --verbose
