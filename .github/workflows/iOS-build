@@ -62,7 +62,7 @@ jobs:
                                         '</dict></plist>')
 
     - name: Upload .ipa to GitHub Actions artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: YourApp.ipa
+        name: Stremio-iOS.ipa
         path: ${{ github.workspace }}/output/Stremio-iOS.ipa
