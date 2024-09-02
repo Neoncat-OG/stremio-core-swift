@@ -50,7 +50,7 @@ jobs:
       #     file_glob: true
       #     overwrite: true
       - name: create test sha256
-        run: echo "test" > .build/StremioCore.xcframework.zip.sha256
+        run: mkdir .build && echo "test" > .build/StremioCore.xcframework.zip.sha256
       - name: Update Package.swift manifest
         run: make manifest url="https://github.com/Stremio/stremio-core-swift/releases/download/${{ github.ref_name }}/StremioCore.xcframework.zip" sha256="$(cat .build/StremioCore.xcframework.zip.sha256)"
       - name: Log Package.swift
