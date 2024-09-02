@@ -26,31 +26,31 @@ jobs:
 
     - name: Add xcframework
       run: |
-        mkdir -p ${{ github.workspace }}/Frameworks
+        mkdir -p ${{ github.workspace }}/Frameworks && mkdir -p ${{ github.workspace }}/output
         cd ${{ github.workspace }}/Frameworks/ && wget https://github.com/Neoncat-OG/stremio-core-swift/releases/download/ci-test-4/StremioCore.xcframework.zip
         cd ${{ github.workspace }}/Frameworks/ && unzip ./StremioCore.xcframework.zip
 
     - name: Build the project
       run: |
-        xcodebuild -project YourProjectName.xcodeproj \
-                   -scheme YourAppTarget \
+        xcodebuild -project Stremio-iOS.xcodeproj \
+                   -scheme Stremio-iOS \
                    -sdk iphoneos \
                    -configuration Release \
                    build
 
     - name: Archive the project
       run: |
-        xcodebuild -project YourProjectName.xcodeproj \
-                   -scheme YourAppTarget \
+        xcodebuild -project Stremio-iOS.xcodeproj \
+                   -scheme Stremio-iOS \
                    -sdk iphoneos \
                    -configuration Release \
                    archive \
-                   -archivePath ${{ github.workspace }}/output/YourApp.xcarchive
+                   -archivePath ${{ github.workspace }}/output/Stremio-iOS.xcarchive
 
     - name: Export the .ipa
       run: |
         xcodebuild -exportArchive \
-                   -archivePath ${{ github.workspace }}/output/YourApp.xcarchive \
+                   -archivePath ${{ github.workspace }}/output/Stremio-iOS.xcarchive \
                    -exportPath ${{ github.workspace }}/output \
                    -exportOptionsPlist <(echo '<?xml version="1.0" encoding="UTF-8"?>' \
                                         '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">' \
