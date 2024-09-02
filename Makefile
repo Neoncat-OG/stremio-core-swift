@@ -5,6 +5,8 @@ SWIFT_FILE := Package.swift
 
 all: macos ios iossim visionossim tvos tvossim package
 
+test: ios
+
 macos:
 	@cargo +nightly build -Z build-std --release --lib --target aarch64-apple-ios-macabi
 	@cargo +nightly build -Z build-std --release --lib --target x86_64-apple-ios-macabi
