@@ -10,7 +10,7 @@ targets:
     platform: iOS
     sources: [Sources]  # Assuming your source code is inside the "Sources" folder
     dependencies:
-      - framework: ${{ github.workspace }}/StremioCore.xcframework
+      - framework: ${{ github.workspace }}/Frameworks/StremioCore.xcframework
     settings:
       base:
         CODE_SIGN_STYLE: None  # Disable code signing
