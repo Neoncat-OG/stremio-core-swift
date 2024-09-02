@@ -10,7 +10,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       # - name: Set default rust toolchain
       #   run: rustup default nightly
       # - name: Install rustfmt
@@ -52,6 +52,10 @@ jobs:
       - name: create test sha256
         run: mkdir .build && echo "test" > .build/StremioCore.xcframework.zip.sha256
       - name: Update Package.swift manifest
-        run: make manifest url="https://github.com/Stremio/stremio-core-swift/releases/download/${{ github.ref_name }}/StremioCore.xcframework.zip" sha256="$(cat .build/StremioCore.xcframework.zip.sha256)"
-      - name: Log Package.swift
-        run: cat Package.swift
+        run: |
+          make manifest url="https://github.com/Stremio/stremio-core-swift/releases/download/${{ github.ref_name }}/StremioCore.xcframework.zip" sha256="$(cat .build/StremioCore.xcframework.zip.sha256)"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m "Release version ${{ github.ref_name }}"
+          git push origin test
