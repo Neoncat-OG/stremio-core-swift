@@ -25,4 +25,4 @@ jobs:
       - name: Install Apple Rust Dependencies
         run: Support/installDependencies.command
       - name: Compile rust code
-        run: make test
+        run: make ios
