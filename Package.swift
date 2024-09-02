@@ -27,7 +27,7 @@ let package = Package(
                     .plugin(name: "SwiftProtobufPlugin", package: "swift-protobuf")
                 ]),
         .target(name: "Wrapper", dependencies: []),
-        //.binaryTarget(name: "XCFramework", path: ".build/StremioCore.xcframework")
-        .binaryTarget(name: "XCFramework", url: url, checksum: sha256)
+        .binaryTarget(name: "XCFramework", path: ".build/StremioCore.xcframework")
+        //.binaryTarget(name: "XCFramework", url: url, checksum: sha256)
     ]
 )
