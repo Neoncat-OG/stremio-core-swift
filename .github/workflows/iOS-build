@@ -1,0 +1,68 @@
+name: iOS Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install xcodegen
+      run: |
+        brew install xcodegen
+
+    - name: Generate Xcode project
+      run: |
+        xcodegen generate
+
+    - name: Add xcframework
+      run: |
+        mkdir -p ${{ github.workspace }}/Frameworks
+        cd ${{ github.workspace }}/Frameworks/ && wget https://github.com/Neoncat-OG/stremio-core-swift/releases/download/ci-test-4/StremioCore.xcframework.zip
+        cd ${{ github.workspace }}/Frameworks/ && unzip ./StremioCore.xcframework.zip
+
+    - name: Build the project
+      run: |
+        xcodebuild -project YourProjectName.xcodeproj \
+                   -scheme YourAppTarget \
+                   -sdk iphoneos \
+                   -configuration Release \
+                   build
+
+    - name: Archive the project
+      run: |
+        xcodebuild -project YourProjectName.xcodeproj \
+                   -scheme YourAppTarget \
+                   -sdk iphoneos \
+                   -configuration Release \
+                   archive \
+                   -archivePath ${{ github.workspace }}/output/YourApp.xcarchive
+
+    - name: Export the .ipa
+      run: |
+        xcodebuild -exportArchive \
+                   -archivePath ${{ github.workspace }}/output/YourApp.xcarchive \
+                   -exportPath ${{ github.workspace }}/output \
+                   -exportOptionsPlist <(echo '<?xml version="1.0" encoding="UTF-8"?>' \
+                                        '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">' \
+                                        '<plist version="1.0"><dict>' \
+                                        '<key>method</key><string>development</string>' \
+                                        '<key>signingStyle</key><string>automatic</string>' \
+                                        '<key>signingCertificate</key><string></string>' \
+                                        '<key>signingRequired</key><false/>' \
+                                        '</dict></plist>')
+
+    - name: Upload .ipa to GitHub Actions artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: YourApp.ipa
+        path: ${{ github.workspace }}/output/YourApp.ipa
