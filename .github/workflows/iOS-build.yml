@@ -34,7 +34,7 @@ jobs:
       run: |
         xcodebuild -list
         xcodebuild -project Stremio-iOS.xcodeproj \
-                   -scheme Stremio-iOS \
+                   -scheme YourAppTarget \
                    -sdk iphoneos \
                    -configuration Release \
                    build
@@ -42,7 +42,7 @@ jobs:
     - name: Archive the project
       run: |
         xcodebuild -project Stremio-iOS.xcodeproj \
-                   -scheme Stremio-iOS \
+                   -scheme YourAppTarget \
                    -sdk iphoneos \
                    -configuration Release \
                    archive \
