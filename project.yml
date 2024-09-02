@@ -1,0 +1,22 @@
+name: Stremio-iOS
+options:
+  bundleIdPrefix: com.stremio.ios
+  deploymentTarget:
+    iOS: '17.0'
+
+targets:
+  YourAppTarget:
+    type: application
+    platform: iOS
+    sources: [Sources]  # Assuming your source code is inside the "Sources" folder
+    dependencies:
+      - framework: ${{ github.workspace }}/StremioCore.xcframework
+    settings:
+      base:
+        CODE_SIGN_STYLE: None  # Disable code signing
+        CODE_SIGNING_ALLOWED: NO  # Prevent code signing entirely
+    scheme:
+      build:
+        targets:
+          - target: Stremio-iOS
+            buildTypes: [release]
